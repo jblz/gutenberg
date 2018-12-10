@@ -233,7 +233,10 @@ export const others = [
 			icon: embedContentIcon,
 			description: __( 'Embed Crowdsignal content.' ),
 		},
-		patterns: [ /^https?:\/\/(www\.)?(crowdsignal|polldaddy)\.com\/.+/i ],
+		patterns: [
+			/^https?:\/\/poll\.fm\/\d+/i,
+			/^https?:\/\/(www\.)?(crowdsignal|polldaddy)\.com\/.+/i,
+		],
 	},
 	{
 		name: 'core-embed/reddit',
