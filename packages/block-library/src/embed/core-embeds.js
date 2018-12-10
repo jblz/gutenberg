@@ -227,13 +227,13 @@ export const others = [
 		patterns: [ /^http:\/\/g?i*\.photobucket\.com\/.+/i ],
 	},
 	{
-		name: 'core-embed/polldaddy',
+		name: 'core-embed/crowdsignal',
 		settings: {
-			title: 'Polldaddy',
+			title: 'Crowdsignal',
 			icon: embedContentIcon,
-			description: __( 'Embed Polldaddy content.' ),
+			description: __( 'Embed Crowdsignal content.' ),
 		},
-		patterns: [ /^https?:\/\/(www\.)?polldaddy\.com\/.+/i ],
+		patterns: [ /^https?:\/\/(www\.)?(crowdsignal|polldaddy)\.com\/.+/i ],
 	},
 	{
 		name: 'core-embed/reddit',
