@@ -70,6 +70,7 @@ module.exports = async function loadConfig( configDirectoryPath ) {
 		] ),
 		lifecycleScripts: config.lifecycleScripts,
 		env: config.env,
+		additionalDockerConfigs: config.additionalDockerConfigs,
 	};
 };
 

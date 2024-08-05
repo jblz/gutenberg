@@ -218,6 +218,31 @@ module.exports = async function start( {
 		} );
 	}
 
+	/**
+	 * Serially start additional docker configs (if any are defined).
+	 */
+	const additionalServiceInfo = {};
+	for ( const additionalConfig of config.additionalDockerConfigs ) {
+		spinner.text = `Starting additional config: (${ additionalConfig })...`;
+
+		const commandOptions = [
+			...( shouldConfigureWp
+				? [ [ '--build', '--force-recreate' ], [ '--remove-orphans' ] ]
+				: [] ),
+		];
+
+		try {
+			const result = await dockerCompose.upAll( {
+				config: additionalConfig,
+				log: dockerComposeConfig.log,
+				commandOptions,
+			} );
+			additionalServiceInfo[ additionalConfig ] = result;
+		} catch ( error ) {}
+
+		spinner.text = `Started additional config: (${ additionalConfig }).`;
+	}
+
 	if ( scripts ) {
 		await executeLifecycleScript( 'afterStart', config, spinner );
 	}
@@ -250,6 +275,12 @@ module.exports = async function start( {
 			`MySQL for automated testing is listening on port ${ testsMySQLPort }`
 		)
 		.concat( '\n' );
+
+	if ( config.additionalDockerConfigs.length > 0 ) {
+		spinner.prefixText = spinner.prefixText
+			.concat( 'Additional config results:\n' )
+			.concat( JSON.stringify( additionalServiceInfo, null, 2 ) );
+	}
 
 	spinner.text = 'Done!';
 };

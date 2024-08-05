@@ -17,10 +17,20 @@ const initConfig = require( '../init-config' );
  * @param {boolean} options.debug   True if debug mode is enabled.
  */
 module.exports = async function stop( { spinner, debug } ) {
-	const { dockerComposeConfigPath } = await initConfig( {
-		spinner,
-		debug,
-	} );
+	const { additionalDockerConfigs, dockerComposeConfigPath } =
+		await initConfig( {
+			spinner,
+			debug,
+		} );
+
+	for ( const additionalConfig of additionalDockerConfigs ) {
+		spinner.text = `Stopping additional config: (${ additionalConfig })...`;
+		await dockerCompose.down( {
+			config: additionalConfig,
+			log: debug,
+		} );
+		spinner.text = `Stopped additional config: (${ additionalConfig }).`;
+	}
 
 	spinner.text = 'Stopping WordPress.';
 
